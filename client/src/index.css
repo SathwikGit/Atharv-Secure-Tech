@@ -2,214 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* =====================================================
-GLOBAL COLOR THEME (Teal + Indigo Cyber Theme)
-===================================================== */
-
-:root {
-  --bg: #020617;
-  --bg-soft: #050b1f;
-  --card: #0b132b;
-
-  --accent: #14b8a6;
-  --accent-strong: #0ea5e9;
-
-  --text: #e2e8f0;
-  --text-muted: #94a3b8;
-
-  --grid: rgba(20, 184, 166, 0.08);
-}
-
-/* =====================================================
-RESET
-===================================================== */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* =====================================================
-BODY + TYPOGRAPHY
-===================================================== */
-
 body {
+  background: #050505;
+  color: #e5e7eb;
   font-family: "Inter", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Headings */
-
-h1,
-h2,
-h3,
-h4 {
-  font-weight: 700;
-  color: var(--text);
-}
-
-h1 {
-  font-size: 72px;
-  line-height: 1.1;
-  letter-spacing: -2px;
-}
-
-h2 {
-  font-size: 36px;
-  letter-spacing: -0.5px;
-}
-
-p {
-  color: var(--text-muted);
-}
-
-/* =====================================================
-CYBER GRID BACKGROUND
-===================================================== */
-
-.grid-bg {
-  background-color: #020617;
 
   background-image:
-    linear-gradient(rgba(20, 184, 166, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20, 184, 166, 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(34, 197, 94, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.05) 1px, transparent 1px);
 
-  background-size: 80px 80px;
+  background-size: 50px 50px;
 }
-
-/* =====================================================
-NAVBAR STYLE
-===================================================== */
-
-.navbar {
-  backdrop-filter: blur(10px);
-  background: rgba(2, 6, 23, 0.6);
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* =====================================================
-CARD DESIGN
-===================================================== */
-
-.card {
-  background: linear-gradient(145deg, #0b132b, #0a1024);
-
-  border-radius: 18px;
-
-  padding: 32px;
-
-  border: 1px solid rgba(255, 255, 255, 0.04);
-
-  transition: all 0.35s ease;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-
-  border-color: rgba(20, 184, 166, 0.4);
-
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
-
-/* =====================================================
-BUTTONS
-===================================================== */
-
-.btn-primary {
-  background: linear-gradient(135deg, #14b8a6, #0ea5e9);
-
-  padding: 14px 30px;
-
-  border-radius: 12px;
-
-  font-weight: 500;
-
-  color: white;
-
-  transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-
-  box-shadow: 0 10px 40px rgba(20, 184, 166, 0.35);
-}
-
-.btn-outline {
-  border: 1px solid #14b8a6;
-
-  padding: 14px 30px;
-
-  border-radius: 12px;
-
-  color: var(--text);
-
-  transition: all 0.3s ease;
-}
-
-.btn-outline:hover {
-  background: #14b8a6;
-
-  color: black;
-}
-
-/* =====================================================
-SECTION LAYOUT
-===================================================== */
 
 section {
-  padding: 110px 20px;
-
-  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
 }
 
-.container {
-  max-width: 1200px;
-
-  margin: auto;
-}
-
-/* =====================================================
-HERO GRADIENT OVERLAY
-===================================================== */
-
-.hero-overlay {
+section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background: radial-gradient(
     circle at center,
-    rgba(20, 184, 166, 0.12),
-    transparent 60%
+    rgba(34, 197, 94, 0.05),
+    transparent 70%
   );
-}
-
-/* =====================================================
-SCROLLBAR STYLE
-===================================================== */
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #020617;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(#14b8a6, #0ea5e9);
-  border-radius: 10px;
+  pointer-events: none;
 }

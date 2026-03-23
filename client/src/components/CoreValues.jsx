@@ -1,51 +1,40 @@
+import { useState, useRef, useEffect } from "react";
+
 function CoreValues() {
-  const values = [
-    {
-      title: "Transparency",
-      icon: "🔍",
-      text: "Open communication and honest reporting across all security operations.",
-    },
-    {
-      title: "Innovation",
-      icon: "⚡",
-      text: "Continuous research and development of advanced cybersecurity solutions.",
-    },
-    {
-      title: "Collaboration",
-      icon: "🤝",
-      text: "Working closely with partners and clients to strengthen security posture.",
-    },
-    {
-      title: "Integrity",
-      icon: "🛡️",
-      text: "Maintaining the highest ethical and professional standards.",
-    },
+  const [hoverIndex, setHoverIndex] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const ref = useRef();
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => entry.isIntersecting && setVisible(true),
+      { threshold: 0.3 },
+    );
+    if (ref.current) obs.observe(ref.current);
+  }, []);
+
+  const principles = [
+    ["zero_trust_architecture", "> enforcing zero trust..."],
+    ["fail_safe_defaults", "> applying safety..."],
+    ["continuous_monitoring", "> tracking activity..."],
+    ["least_privilege_access", "> limiting access..."],
+    ["defense_in_depth", "> layered defense active..."],
   ];
 
   return (
-    <section id="values" className="py-28 bg-[#020617] text-white">
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl font-semibold text-teal-400">Core Values</h2>
+    <section ref={ref} className={`fade-section ${visible ? "visible" : ""}`}>
+      <div className="max-w-6xl mx-auto w-full">
+        <h2 className="text-4xl text-green-400 mb-8">SYSTEM PRINCIPLES</h2>
 
-          <p className="text-slate-400 mt-3">
-            Principles that guide our cybersecurity philosophy
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-4 gap-8">
-          {values.map((v, i) => (
+        <div className="space-y-3">
+          {principles.map((p, i) => (
             <div
               key={i}
-              className="group p-8 rounded-2xl bg-gradient-to-br from-[#0b132b] to-[#020617] border border-slate-800 hover:border-teal-400 transition duration-300"
+              onMouseEnter={() => setHoverIndex(i)}
+              onMouseLeave={() => setHoverIndex(null)}
+              className="border border-gray-800 px-5 py-3 rounded-lg font-mono text-green-400 hover:border-green-400"
             >
-              <div className="text-3xl mb-4">{v.icon}</div>
-
-              <h3 className="font-semibold mb-3 text-lg group-hover:text-teal-400">
-                {v.title}
-              </h3>
-
-              <p className="text-sm text-slate-400">{v.text}</p>
+              {hoverIndex === i ? p[1] : p[0]}
             </div>
           ))}
         </div>

@@ -1,7 +1,7 @@
 function Footer() {
   return (
-    <footer className="bg-[#020617] border-t border-slate-800 py-6 text-center text-gray-400">
-      © 2026 Atharv SecureTech
+    <footer className="text-center py-6 text-gray-500 border-t border-gray-800">
+      build_id: f20201567@hyderabad.bits-pilani.ac.in
     </footer>
   );
 }

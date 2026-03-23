@@ -1,37 +1,37 @@
-import transporter from "../config/mailer.js";
+import nodemailer from "nodemailer";
+import Contact from "../models/Contact.js";
 
-export const sendContactMail = async (req, res) => {
+export const sendContact = async (req, res) => {
   const { name, email, subject, message } = req.body;
 
   try {
-    const mailOptions = {
+    // SAVE TO DATABASE
+    await Contact.create({
+      name,
+      email,
+      subject,
+      message,
+    });
+
+    // EMAIL LOGIC
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
       from: email,
       to: process.env.EMAIL_USER,
-      subject: subject || "New Website Contact",
-      html: `
-        <h2>New Contact Request</h2>
-
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Subject:</b> ${subject}</p>
-
-        <p><b>Message:</b></p>
-        <p>${message}</p>
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    res.status(200).json({
-      success: true,
-      message: "Email sent successfully",
+      subject: subject || "New Contact",
+      text: `From: ${name} (${email})\n\n${message}`,
     });
-  } catch (error) {
-    console.error(error);
 
-    res.status(500).json({
-      success: false,
-      message: "Email failed to send",
-    });
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
   }
 };

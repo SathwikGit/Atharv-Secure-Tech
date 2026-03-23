@@ -1,45 +1,104 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("hero");
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const navItems = [
+    { id: "hero", label: "Home" },
+    { id: "about", label: "Overview" },
+    { id: "services", label: "Modules" },
+    { id: "team", label: "Operators" },
+    { id: "contact", label: "Contact" },
+  ];
+
+  // TRACK ACTIVE SECTION
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-    };
+    const sections = document.querySelectorAll("section");
 
-    window.addEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.6 },
+    );
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    sections.forEach((sec) => observer.observe(sec));
+
+    return () => observer.disconnect();
   }, []);
 
-  const navbarClass = scrolled
-    ? "fixed top-0 left-0 w-full z-50 bg-[#020617]/80 backdrop-blur-md border-b border-slate-800"
-    : "fixed top-0 left-0 w-full z-50 bg-transparent";
+  // NAVIGATION FIX
+  const handleNav = (id) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 100);
+    } else {
+      document.getElementById(id)?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
-    <nav className={navbarClass}>
-      <div className="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center text-white">
-        <h1 className="text-xl font-semibold">
-          Atharv <span className="text-teal-400">SecureTech</span>
-        </h1>
+    <div className="fixed left-0 top-0 h-full w-24 border-r border-green-900 flex flex-col items-center py-6 bg-black/80 backdrop-blur-md z-50">
+      {/* GLOW EDGE */}
+      <div className="absolute left-0 top-0 h-full w-[2px] bg-green-500 opacity-40"></div>
 
-        <div className="flex gap-8 text-sm">
-          <a href="#about" className="hover:text-teal-400 transition">
-            About
-          </a>
-          <a href="#services" className="hover:text-teal-400 transition">
-            Services
-          </a>
-          <a href="#team" className="hover:text-teal-400 transition">
-            Team
-          </a>
-          <a href="#contact" className="hover:text-teal-400 transition">
-            Contact
-          </a>
-        </div>
+      {/* LOGO */}
+      <div className="text-green-400 font-bold rotate-90 origin-left text-lg tracking-widest">
+        TSSec
       </div>
-    </nav>
+
+      {/* NAV */}
+      <div className="relative flex flex-col gap-8 text-sm mt-20">
+        {/* ACTIVE INDICATOR LINE */}
+        <div
+          className="absolute left-[-10px] w-[3px] bg-green-400 transition-all duration-300"
+          style={{
+            top: `${navItems.findIndex((i) => i.id === active) * 40}px`,
+            height: "20px",
+          }}
+        />
+
+        {navItems.map((item) => (
+          <div
+            key={item.id}
+            onClick={() => handleNav(item.id)}
+            className={`cursor-pointer transition-all duration-200 ${
+              active === item.id
+                ? "text-green-400 scale-110"
+                : "text-gray-500 hover:text-green-400 hover:translate-x-1"
+            }`}
+          >
+            {item.label}
+          </div>
+        ))}
+
+        {/* ADMIN */}
+        <Link
+          to="/admin"
+          className="text-yellow-400 mt-10 hover:text-white hover:translate-x-1 transition"
+        >
+          Admin
+        </Link>
+      </div>
+
+      {/* FOOTER */}
+      <div className="mt-auto mb-6 text-[11px] text-green-500 rotate-90 tracking-widest opacity-70 hover:opacity-100 transition">
+        2020B4A71567H
+      </div>
+    </div>
   );
 }
 
